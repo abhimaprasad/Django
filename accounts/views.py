@@ -11,8 +11,20 @@ def Transfer(request):
     if (request.method == 'POST'):
         form = TransferAmountForm(request.POST)
         if form.is_valid():
-            form.save()
+            mpin = form.cleaned_data.get("mpin")
+            amount = form.cleaned_data.get("amount")
+            try:
+                object = Account.objects.get(mpin=mpin)
+                bal=object.balance-amount
+                object.balance=bal
+                object.save()
+            except Exception:
+                context["form"] = form
+                return render(request, "accounts/transferamount.html", context)
             return redirect("balance")
+        else:
+            context["form"] = form
+            return render(request, "accounts/transferamount.html", context)
 
     return render(request, "accounts/transferamount.html",context)
 
