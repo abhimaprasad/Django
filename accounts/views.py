@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from accounts.models import Account
+from accounts.models import Account,TransferDetails
 
 # Create your views here.
 from accounts.forms import AccountCreateForm,LoginForm,BalanceCheckForm,TransferAmountForm
@@ -97,4 +97,11 @@ def AccountActivity(request):
     form=BalanceCheckForm
     context={}
     context["form"]=form
+    if (request.method == 'POST'):
+        form = BalanceCheckForm(request.POST)
+        if form.is_valid():
+            mpin = form.cleaned_data.get("mpin")
+            transactions=TransferDetails.objects.filter(mpin=mpin)
+            context["transactions"]=transactions
+            return render(request, "accounts/accounthistory.html", context)
     return render(request, "accounts/accounthistory.html", context)

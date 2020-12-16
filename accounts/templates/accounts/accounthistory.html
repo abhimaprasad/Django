@@ -11,5 +11,11 @@
      {{form.as_p}}
     <input type="submit">
 </form>
+{% for transaction in transactions %}
+ Account Number:{{transaction.accno}}
+  Amount:{{transaction.amount}}
+<hr>
+{% endfor%}
+
 </body>
 </html>
