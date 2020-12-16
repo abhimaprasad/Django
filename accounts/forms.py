@@ -21,6 +21,19 @@ class LoginForm(forms.Form):
 
 class BalanceCheckForm(forms.Form):
     mpin = forms.CharField(max_length=4)
+    def clean(self):
+        cleaned_data = super().clean()
+        mpin = cleaned_data.get("mpin")
+        try:
+            object = Account.objects.get(mpin=mpin)
+            if(object):
+                pass
+        except:
+            msg="you are provided invalid pin"
+            self.add_error("mpin",msg)
+
+
+
 
 
 class AccountCreateForm(forms.Form):

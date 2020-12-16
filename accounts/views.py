@@ -90,3 +90,11 @@ def balanceEnq(request):
                 return render(request,"accounts/login.html", context)
 
     return render(request,"accounts/checkbalance.html",context)
+
+
+
+def AccountActivity(request):
+    form=BalanceCheckForm
+    context={}
+    context["form"]=form
+    return render(request, "accounts/accounthistory.html", context)
